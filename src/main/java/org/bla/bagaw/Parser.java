@@ -3,9 +3,9 @@ package org.bla.bagaw;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Set;
@@ -13,10 +13,26 @@ import java.util.Set;
 public class Parser {
 
     public static void main(String[] args) throws IOException {
-        String j = new String(Files.readAllBytes(Paths.get("c:\\Users\\gergely.kovacs\\workspace\\bagaweb\\src\\main\\resources\\daily.json")));
+        URL url = new URL("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=OY1Z3KT43YF6WXW0");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
 
-        InputStream in = new FileInputStream("c:\\Users\\gergely.kovacs\\workspace\\bagaweb\\src\\main\\resources\\daily.json");
-        JSONObject obj = new JSONObject(j);
+        con.setDoOutput(true);
+        con.setRequestProperty("Content-Type", "application/json");
+
+        System.out.println(con.getResponseCode());
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+
+        String inputLine;
+        StringBuilder content = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+
+        JSONObject obj = new JSONObject(content.toString());
 
         JSONObject tsd = obj.getJSONObject("Time Series (Daily)");
 
@@ -32,6 +48,7 @@ public class Parser {
 
         System.out.println(timeSeries);
 
+        con.disconnect();
     }
 
     private static JSONObject createDOHLC(JSONObject oclh, String date) {

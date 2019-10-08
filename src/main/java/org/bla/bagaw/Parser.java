@@ -14,12 +14,17 @@ import java.util.Set;
 
 public class Parser {
 
+    private static final String KEY = "OY1Z3KT43YF6WXW0";
+
     public static void main(String[] args) throws IOException {
-        System.out.println(new Parser().getData());
+        new Parser().getData("BAC");
     }
 
-    public String getData() throws IOException {
-        URL url = new URL("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=OY1Z3KT43YF6WXW0");
+    public String getData(String symbol) throws IOException {
+        URL url = new URL(
+                String.format("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=%s&apikey=%s", symbol, KEY));
+
+        System.out.println(url);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
 

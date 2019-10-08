@@ -2,12 +2,10 @@ package org.bla.bagaw;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -28,9 +26,15 @@ public class BagaApplication {
 
     @GetMapping("/candle")
     public String candle(Model model) throws IOException {
-        model.addAttribute("data", new Parser().getData());
+        //model.addAttribute("data", new Parser().getData("APPL"));
         return "candle";
     }
 
+    @ResponseBody
+    @GetMapping(path = "/chart/{symbol}", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String getChartData(@PathVariable String symbol) throws IOException {
+        System.out.println("Parsing data...");
+        return new Parser().getData(symbol);
+    }
 
 }

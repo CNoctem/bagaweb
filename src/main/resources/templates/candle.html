@@ -5,26 +5,42 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 
-<!-- Styles -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+body {
+  background: #555;
+}
+
+.content {
+  max-width: 500px;
+  margin: auto;
+}
+
 body { background-color: #30303d; color: #fff; }
-#chartdiv, #chartdiv2 {
+
+.chartdiv {
   width: 500px;
-  height: 500px;
+  height: 300px;
 }
 
-#block_container
-{
-    text-align:center;
+.chartdivW {
+  border-radius: 5px;
+  border: 1px solid #73AD21;
+  padding: 2px;
+  display:inline-block;
 }
 
-#block_container {
+.chart-title {
     text-align: center;
+    color: #73AD21;
 }
+
 #block_container > div {
     display: inline-block;
     vertical-align: middle;
 }
+
+
 </style>
 
 
@@ -39,23 +55,20 @@ body { background-color: #30303d; color: #fff; }
 
 am4core.ready(function() {
 
-    chart1 = createChart("chartdiv");
-    chart1.dataSource.url="/chart/BAC";
+    chart1 = createChart("chartdiv1", "chartdivTitle", "BAC");
 
-    chart2 = createChart("chartdiv2");
-    chart2.dataSource.url="/chart/AAPL";
-
-
+    chart2 = createChart("chartdiv2", "chartdivTitle2", "AAPL");
 }); // end am4core.ready()
 
-function createChart(divid) {
+function createChart(divid, titleid, symbol) {
     // Themes begin
     am4core.useTheme(am4themes_dark);
     am4core.useTheme(am4themes_animated);
     // Themes end
 
     chart = am4core.create(divid, am4charts.XYChart);
-    chart.paddingRight = 20;
+    chart.paddingRight = 2;
+    chart.fontSize = 9
 
     chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
 
@@ -90,16 +103,32 @@ function createChart(divid) {
 
     scrollbarX = new am4charts.XYChartScrollbar();
     scrollbarX.series.push(lineSeries);
-    chart.scrollbarX = scrollbarX;
+    //chart.scrollbarX = scrollbarX;
+
+    chart.dataSource.url="/chart/" + symbol;
+    document.getElementById(titleid).innerHTML = symbol;
+
 
     return chart;
 }
 
 
+
+
 </script>
 <body>
+
+<div class="content">
     <!-- HTML -->
-    <div id="chartdiv"></div>
-    <div id="chartdiv2"></div>
+    <div class="chartdivW">
+        <p id="chartdivTitle" class="chart-title"></p>
+        <div id="chartdiv1" class="chartdiv"></div>
+    </div>
+
+    <div class="chartdivW">
+        <p id="chartdivTitle2" class="chart-title"></p>
+        <div id="chartdiv2" class="chartdiv"></div>
+    </div>
+</div>
 </body>
 </html>

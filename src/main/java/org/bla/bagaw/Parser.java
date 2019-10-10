@@ -49,18 +49,19 @@ public class Parser {
 
         JPanel r1 = createRow(true,
                 TSPainterFactory.createAreaChart(new TimeSeries("BAC")),
-                TSPainterFactory.createAreaChart(new TimeSeries("AAPL")));
+                TSPainterFactory.createAreaChart(new TimeSeries("AAPL")),
+                TSPainterFactory.createAreaChart(new TimeSeries("RGSE")));
 
         JPanel r2 = createRow(true,
                 TSPainterFactory.createAreaChart(new TimeSeries("GOOG")),
                 TSPainterFactory.createAreaChart(new TimeSeries("GT")));
 
-        frame.setSize(700, 300);
+        frame.setSize(700, 600);
 
 
         JPanel page = new JPanel();
         BoxLayout l = new BoxLayout(page, BoxLayout.PAGE_AXIS);
-        //page.setLayout(l);
+        page.setLayout(l);
 
         page.add(r1);
         page.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -75,7 +76,6 @@ public class Parser {
 
     private static JPanel createRow(boolean isRow, JPanel... charts) {
         JPanel row = new JPanel();
-        row.setBorder(new LineBorder(Color.RED));
         BoxLayout bl = new BoxLayout(row, isRow ? BoxLayout.LINE_AXIS : BoxLayout.PAGE_AXIS);
         row.setLayout(bl);
 

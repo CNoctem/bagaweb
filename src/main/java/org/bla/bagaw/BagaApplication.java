@@ -34,7 +34,7 @@ public class BagaApplication {
     @GetMapping(path = "/chart/{symbol}", produces = MediaType.TEXT_PLAIN_VALUE)
     public String getChartData(@PathVariable String symbol) throws IOException {
         System.out.println("Parsing data...");
-        return new Parser().getData(symbol);
+        return new Parser(symbol).getCandleData();
     }
 
 }

@@ -1,5 +1,6 @@
-package org.bla.bagaw;
+package org.bla.bagaw.web;
 
+import org.bla.bagaw.Parser;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.MediaType;

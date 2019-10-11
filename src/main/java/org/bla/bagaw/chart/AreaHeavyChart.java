@@ -3,32 +3,31 @@ package org.bla.bagaw.chart;
 import org.bla.bagaw.data.TimeSeries;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.util.List;
 
-public class AreaChart implements ChartPainter {
+public class AreaHeavyChart extends TimeSeriesPainter {
+
+    public AreaHeavyChart(TimeSeries timeSeries) {
+        super(timeSeries);
+    }
 
     @Override
-    public void paintChart(Graphics2D g, Dimension size, TimeSeries timeSeries) {
+    public void paintTimeSeries(Graphics2D g, int width, int height) {
         if (timeSeries.getData() == null) return;
-        double height = size.getHeight();
-        double width = size.getWidth();
-        List<Double> data = timeSeries.getValues();
         g.setColor(Color.CYAN);
         double range = timeSeries.getDomain().range;
-        double yStep = height / range;
+        double yStep = (double) height / range;
         double min = timeSeries.getDomain().min;
         double N = timeSeries.getDomain().N;
 
         for (int n = 0; n < data.size() - 1; n++) {
-            int x0 = (int) (n * width / N);
-            int x1 = (int) ((n + 1) * width / N);
+            int x0 = (int) (n * (double) width / N);
+            int x1 = (int) ((n + 1) * (double) width / N);
             double dataY = data.get(n);
             int y0 = (int) ((dataY - min) * yStep);
             int y1 = (int) ((data.get(n + 1) - min) * yStep);
-            g.drawRect(x0, (int) (height - y0), 1, y0);
-            drawTrapez(g, x0, x1, y0, y1, (int) height);
+            g.drawRect(x0, height - y0, 1, y0);
+            drawTrapez(g, x0, x1, y0, y1, height);
         }
     }
 

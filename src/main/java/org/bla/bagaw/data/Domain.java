@@ -1,4 +1,4 @@
-package org.bla.bagaw;
+package org.bla.bagaw.data;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;

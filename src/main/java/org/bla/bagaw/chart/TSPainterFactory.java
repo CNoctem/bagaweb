@@ -1,6 +1,6 @@
 package org.bla.bagaw.chart;
 
-import org.bla.bagaw.data.TimeSeries;
+import org.bla.bagaw.data.DepTimeSeries;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -12,12 +12,13 @@ import java.awt.Graphics2D;
 
 public class TSPainterFactory {
 
-    public static JPanel createAreaChart(TimeSeries timeSeries) {
+    public static JPanel createAreaChart(DepTimeSeries timeSeries) {
         JPanel chart = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 new AreaHeavyChart(timeSeries).paintTimeSeries((Graphics2D) g, getWidth(), getHeight());
-                new LineChart().paintChart((Graphics2D) g, getSize(), timeSeries.createSMA());
+                DepTimeSeries sma = timeSeries.createSMA();
+                new LineChart().paintChart((Graphics2D) g, getSize(), sma);
             }
         };
 

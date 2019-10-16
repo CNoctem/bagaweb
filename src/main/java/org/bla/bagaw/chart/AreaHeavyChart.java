@@ -1,13 +1,13 @@
 package org.bla.bagaw.chart;
 
-import org.bla.bagaw.data.TimeSeries;
+import org.bla.bagaw.data.DepTimeSeries;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class AreaHeavyChart extends TimeSeriesPainter {
 
-    public AreaHeavyChart(TimeSeries timeSeries) {
+    public AreaHeavyChart(DepTimeSeries timeSeries) {
         super(timeSeries);
     }
 

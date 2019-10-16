@@ -2,7 +2,6 @@ package org.bla.bagaw;
 
 import com.bulenkov.darcula.DarculaLaf;
 import org.bla.bagaw.chart.TSPainterFactory;
-import org.bla.bagaw.data.DataLoader;
 import org.bla.bagaw.data.FrequencyCache;
 
 import javax.swing.Box;

@@ -1,6 +1,6 @@
 package org.bla.bagaw.chart;
 
-import org.bla.bagaw.data.TimeSeries;
+import org.bla.bagaw.data.DepTimeSeries;
 
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -12,10 +12,10 @@ import java.util.List;
 
 public class HeavyChart extends JPanel {
 
-    private final TimeSeries timeSeries;
+    private final DepTimeSeries timeSeries;
     private List<Double> data;
 
-    public HeavyChart(TimeSeries ts) {
+    public HeavyChart(DepTimeSeries ts) {
         this.timeSeries = ts;
         data = new ArrayList<>(ts.getData().size());
         for (LocalDate k : ts.getData().keySet()) {

@@ -1,36 +1,34 @@
 package org.bla.bagaw.data;
 
-import org.bla.bagaw.Parser;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public class TimeSeries {
+public class DepTimeSeries {
 
     private Domain domain;
     private TreeMap<LocalDate, Double> data = new TreeMap<>();
     private List<Double> values = new ArrayList<>();
     private String symbol;
 
-    TimeSeries(String symbol, JSONObject rawData, OHLCV ohlcv) throws IOException {
+    DepTimeSeries(String symbol, JSONObject rawData, OHLCV ohlcv) throws IOException {
         for (String k : rawData.keySet()) {
             JSONObject date = rawData.getJSONObject(k);
             double value = date.getDouble(ohlcv.getKey());
-            data.put(LocalDate.parse(k, DataLoader.FORMATTER), value);
+            data.put(LocalDate.parse(k, DepDataLoader.FORMATTER), value);
             values.add(value);
         }
         setMinMax();
         this.symbol = symbol;
     }
 
-    private TimeSeries(String symbol, List<LocalDate> keys, List<Double> values) {
+    private DepTimeSeries(String symbol, List<LocalDate> keys, List<Double> values) {
         for (int i = 0; i < keys.size(); i++) data.put(keys.get(i), values.get(i));
         this.values = values;
         setMinMax();
@@ -60,15 +58,33 @@ public class TimeSeries {
         domain = new Domain(stats.getMin(), stats.getMax(), data.firstKey(), data.lastKey(), data.size());
     }
 
-    public TimeSeries createSMA() {
+    public DepTimeSeries createSMA() {
         List<LocalDate> keys = new ArrayList<>(data.size());
         List<Double> v = new ArrayList<>(data.size());
         int i = 0;
         for (LocalDate k : data.keySet()) {
             keys.add(k);
-            v.add(getSMAValue(i++));
+            v.add(calculateWindowedSMA(i++, 4));
         }
-        return new TimeSeries(symbol, keys, v);
+        return new DepTimeSeries(symbol, keys, v);
+    }
+
+    private double calculateWindowedSMA(int index, int windowSize) {
+        windowSize /= 2;
+        int start = Math.max(index - windowSize, 0);
+        int end = Math.min(index + windowSize, values.size() - 1);
+        return calculateAverage(start, end);
+    }
+
+    private double calculateAverage(int startIndex, int endIndex) {
+        if (startIndex < 0 || endIndex >= values.size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        double sum = 0;
+        for (int n = startIndex; n <= endIndex; n++) {
+            sum += values.get(n);
+        }
+        return sum / (double)(endIndex - startIndex);
     }
 
     private double getSMAValue(int index) {

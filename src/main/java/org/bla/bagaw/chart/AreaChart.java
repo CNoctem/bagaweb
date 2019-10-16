@@ -1,6 +1,6 @@
 package org.bla.bagaw.chart;
 
-import org.bla.bagaw.data.TimeSeries;
+import org.bla.bagaw.data.DepTimeSeries;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,7 +10,7 @@ import java.util.List;
 public class AreaChart implements ChartPainter {
 
     @Override
-    public void paintChart(Graphics2D g, Dimension size, TimeSeries timeSeries) {
+    public void paintChart(Graphics2D g, Dimension size, DepTimeSeries timeSeries) {
         if (timeSeries.getData() == null) return;
         double height = size.getHeight();
         double width = size.getWidth();

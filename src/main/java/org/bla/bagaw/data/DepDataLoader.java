@@ -9,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 
-public class DataLoader {
+public class DepDataLoader {
 
     private static final String KEY = "OY1Z3KT43YF6WXW0";
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -28,7 +28,7 @@ public class DataLoader {
 
     public static String loadRawData(String symbol) throws IOException {
         URL url = new URL(
-                "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="
+                "https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol="
                         + symbol + "&apikey="
                         + KEY);
 

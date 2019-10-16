@@ -17,24 +17,24 @@ public class FrequencyCache {
 
     private static Map<String, String> inmem = new HashMap<>();
 
-    public static TimeSeries load(String symbol) throws IOException {
+    public static DepTimeSeries load(String symbol) throws IOException {
         Path p = Paths.get(storeDir + File.separator + symbol + ".json");
         JSONObject json;
         if (inmem.containsKey(symbol)) {
             System.out.println("Fetching " + symbol + " from inmem...");
-            json = DataLoader.loadJsonFromRawData(inmem.get(symbol));
+            json = DepDataLoader.loadJsonFromRawData(inmem.get(symbol));
         } else if (p.toFile().exists()) {
             System.out.println("Fetching " + symbol + " from cache file " + p.toFile());
-            json = DataLoader.loadJsonFromRawData(Files.lines(p).collect(Collectors.joining()));
+            json = DepDataLoader.loadJsonFromRawData(Files.lines(p).collect(Collectors.joining()));
         } else {
             System.out.println("Writing " + symbol + " to cache...");
-            String rawData = DataLoader.loadRawData(symbol);
+            String rawData = DepDataLoader.loadRawData(symbol);
             Files.write(p, rawData.getBytes());
 
             inmem.put(symbol, rawData);
-            json = DataLoader.loadJsonFromRawData(rawData);
+            json = DepDataLoader.loadJsonFromRawData(rawData);
         }
-        return new TimeSeries(
+        return new DepTimeSeries(
                 symbol,
                 json,
                 OHLCV.CLOSE);

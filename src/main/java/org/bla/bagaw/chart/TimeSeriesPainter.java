@@ -1,16 +1,16 @@
 package org.bla.bagaw.chart;
 
-import org.bla.bagaw.data.TimeSeries;
+import org.bla.bagaw.data.DepTimeSeries;
 
 import java.awt.Graphics2D;
 import java.util.List;
 
 public abstract class TimeSeriesPainter {
 
-    protected TimeSeries timeSeries;
+    protected DepTimeSeries timeSeries;
     protected List<Double> data;
 
-    public TimeSeriesPainter(TimeSeries timeSeries) {
+    public TimeSeriesPainter(DepTimeSeries timeSeries) {
         this.timeSeries = timeSeries;
         data = timeSeries.getValues();
     }
